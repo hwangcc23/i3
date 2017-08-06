@@ -375,7 +375,209 @@ ok(@content == 2, 'two containers opened');
 isnt($content[0]->{layout}, 'tabbed', 'layout not tabbed');
 isnt($content[1]->{layout}, 'tabbed', 'layout not tabbed');
 
+exit_gracefully($pid);
+
+#####################################################################
+# 16: Check that the command 'layout toggle split' works regardless
+# of what layout we're using.
+#####################################################################
+
+$config = <<EOT;
+# i3 config file (v4)
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+workspace_layout default
+EOT
+
+$pid = launch_with_config($config);
+
+$tmp = fresh_workspace;
+
+cmd 'layout splith';
+$first = open_window;
+$second = open_window;
+cmd 'layout toggle split';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splitv', 'layout toggles to splitv');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout splitv';
+$first = open_window;
+$second = open_window;
+cmd 'layout toggle split';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splith', 'layout toggles to splith');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout tabbed';
+$first = open_window;
+$second = open_window;
+cmd 'layout toggle split';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splith', 'layout toggles to splith');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout stacked';
+$first = open_window;
+$second = open_window;
+cmd 'layout toggle split';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splith', 'layout toggles to splith');
 
 exit_gracefully($pid);
+
+#####################################################################
+# 17: Check about setting a new layout.
+#####################################################################
+
+$config = <<EOT;
+# i3 config file (v4)
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+workspace_layout default
+EOT
+
+$pid = launch_with_config($config);
+
+$tmp = fresh_workspace;
+
+cmd 'layout splith';
+$first = open_window;
+$second = open_window;
+cmd 'layout splitv';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splitv', 'layout changes to splitv');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout splith';
+$first = open_window;
+$second = open_window;
+cmd 'layout tabbed';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'tabbed', 'layout changed to tabbed');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout splith';
+$first = open_window;
+$second = open_window;
+cmd 'layout stacked';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'stacked', 'layout changed to stacked');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout splitv';
+$first = open_window;
+$second = open_window;
+cmd 'layout splith';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splith', 'layout changes to splith');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout splitv';
+$first = open_window;
+$second = open_window;
+cmd 'layout tabbed';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'tabbed', 'layout changed to tabbed');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout splitv';
+$first = open_window;
+$second = open_window;
+cmd 'layout stacked';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'stacked', 'layout changed to stacked');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout tabbed';
+$first = open_window;
+$second = open_window;
+cmd 'layout splith';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splith', 'layout changes to splith');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout tabbed';
+$first = open_window;
+$second = open_window;
+cmd 'layout splitv';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splitv', 'layout changed to splitv');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout tabbed';
+$first = open_window;
+$second = open_window;
+cmd 'layout stacked';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'stacked', 'layout changed to stacked');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout stacked';
+$first = open_window;
+$second = open_window;
+cmd 'layout splith';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splith', 'layout changes to splith');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout stacked';
+$first = open_window;
+$second = open_window;
+cmd 'layout splitv';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'splitv', 'layout changed to splitv');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
+
+cmd 'layout stacked';
+$first = open_window;
+$second = open_window;
+cmd 'layout tabbed';
+@content = @{get_ws_content($tmp)};
+is($content[0]->{layout}, 'tabbed', 'layout changed to tabbed');
+
+cmd '[id="' . $first->id . '"] kill';
+cmd '[id="' . $second->id . '"] kill';
+sync_with_i3;
 
 done_testing;
